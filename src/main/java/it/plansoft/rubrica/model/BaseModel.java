@@ -1,56 +1,61 @@
 package it.plansoft.rubrica.model;
 
+import javax.persistence.MappedSuperclass;
 import java.util.Date;
 
 /**
- * classe di base per i modelli di dati.
+ * classe di base per i modelli di dati:id + tracciamento inserimento / modifica
  */
-public class BaseModel {
+@MappedSuperclass
+public class BaseModel<ID> extends IDModel<ID> {
 
-  private Long id;
+    protected Date tsInsert;
+    protected String userInsert;
+    protected Date tsUpdate;
+    protected String userUpdate;
 
-  private Date tsInsert;
-  private String userInsert;
-  private Date tsUpdate;
-  private String userUpdate;
+    public BaseModel() {
 
-  public Long getId() {
-    return id;
-  }
+    }
 
-  public String getUserUpdate() {
-    return userUpdate;
-  }
 
-  public void setUserUpdate(String userUpdate) {
-    this.userUpdate = userUpdate;
-  }
+    public BaseModel(ID id, Date tsInsert, String userInsert, Date tsUpdate, String userUpdate) {
+        this.id = id;
+        this.tsInsert = tsInsert;
+        this.userInsert = userInsert;
+        this.tsUpdate = tsUpdate;
+        this.userUpdate = userUpdate;
+    }
 
-  public Date getTsUpdate() {
-    return tsUpdate;
-  }
+    public String getUserUpdate() {
+        return userUpdate;
+    }
 
-  public void setTsUpdate(Date tsUpdate) {
-    this.tsUpdate = tsUpdate;
-  }
+    public void setUserUpdate(String userUpdate) {
+        this.userUpdate = userUpdate;
+    }
 
-  public Date getTsInsert() {
-    return tsInsert;
-  }
+    public Date getTsUpdate() {
+        return tsUpdate;
+    }
 
-  public void setTsInsert(Date tsInsert) {
-    this.tsInsert = tsInsert;
-  }
+    public void setTsUpdate(Date tsUpdate) {
+        this.tsUpdate = tsUpdate;
+    }
 
-  public String getUserInsert() {
-    return userInsert;
-  }
+    public Date getTsInsert() {
+        return tsInsert;
+    }
 
-  public void setUserInsert(String userInsert) {
-    this.userInsert = userInsert;
-  }
+    public void setTsInsert(Date tsInsert) {
+        this.tsInsert = tsInsert;
+    }
 
-  public void setId(Long id) {
-    this.id = id;
-  }
+    public String getUserInsert() {
+        return userInsert;
+    }
+
+    public void setUserInsert(String userInsert) {
+        this.userInsert = userInsert;
+    }
 }

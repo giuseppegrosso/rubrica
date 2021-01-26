@@ -12,11 +12,9 @@ import it.plansoft.rubrica.repository.RubricaRepository;
 @Service
 public class RubricaService extends BaseCrudService<RubricaRepository, Rubrica, Long> {
 
-  // private RubricaRepository rubricaRepository;
-
-  @Autowired
-  public RubricaService(RubricaRepository rubricaRepository) {
-    super(rubricaRepository);
-  }
+	@Autowired
+	public RubricaService(RubricaRepository rubricaRepository) {
+		super(rubricaRepository);
+	}
 
 }

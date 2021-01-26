@@ -21,7 +21,7 @@ public class RubricaControllerTest  {
 
     @Test
     public void getRubricaList() throws Exception {
-       List<Rubrica> rlist = controller.getAll();
+       List<Rubrica> rlist = controller.getAllItems();
 
        assertTrue(rlist.size() > 0);
     }

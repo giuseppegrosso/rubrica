@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public class BaseCrudService<REPO extends JpaRepository<T, ID>, T, ID> implements IServiceCrud<T, ID> {
 
-  private JpaRepository<T, ID> repo;
+  protected JpaRepository<T, ID> repo;
 
   private final static Logger log = LoggerFactory.getLogger(BaseCrudService.class);
 
