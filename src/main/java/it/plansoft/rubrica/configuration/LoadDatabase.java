@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import it.plansoft.rubrica.model.Rubrica;
 import it.plansoft.rubrica.model.UserAccount;
@@ -19,7 +20,7 @@ public class LoadDatabase {
 
 	@Bean
 	public CommandLineRunner LoadDatabaseTest(final RubricaRepository rubrica, UserRepository urepo,
-			UserAccountRepository uaccount) {
+			UserAccountRepository uaccount, PasswordEncoder passwordEncoder) {
 		return new CommandLineRunner() {
 
 			@Override
@@ -28,16 +29,24 @@ public class LoadDatabase {
 				// caricamento utenti/account/ruoli
 				// ..
 				log.info("insert userAccount {} ", uaccount.save(new UserAccount("Grosso", "Giuseppe",
-						"giuseppe.ing.grosso@gmail.com", "Microsoft", "giuseppe", "giuseppe", "ADMIN|READ|WRITE")));
+						"giuseppe.ing.grosso@gmail.com", "Microsoft", "giuseppe", passwordEncoder.encode("giuseppe"), "ADMIN|READ|WRITE")));
 				log.info("insert userAccount {} ", uaccount.save(new UserAccount("Grosso", "Lorenzo",
-						"giuseppe.ing.grosso@gmail.com", "Google", "lorenzo", "lorenzo", "USER|READ")));
+						"giuseppe.ing.grosso@gmail.com", "Google", "lorenzo", passwordEncoder.encode("lorenzo"), "USER|READ")));
 				log.info("insert userAccount {} ", uaccount.save(new UserAccount("Grosso", "Daniele",
-						"giuseppe.ing.grosso@gmail.com", "Linkedin", "daniele", "daniele", "VISUALIZZATORE|READ")));
+						"giuseppe.ing.grosso@gmail.com", "Linkedin", "daniele", passwordEncoder.encode("daniele"), "VISUALIZZATORE|READ")));
 				
 				log.info("insert userAccount {} ", uaccount.save(new UserAccount("Grosso", "xxxxxx",
 						"xxx@gmail.com", "Google", "xxx", "xxx", "USER|READ")));
 				
+				// caricamento nuovi utenti:
+				log.info("insert userAccount {} ",
+				uaccount.save(new UserAccount("Pinco", "Pallino",
+						"xxx@gmail.com", "Google", "pinco", passwordEncoder.encode("pallino"), "ADMIN|READ|WRITE")));
+				
+				log.info("insert userAccount {} ",uaccount.save(new UserAccount("Paolino", "Paperino",
+						"xxx@gmail.com", "Google", "paperino", passwordEncoder.encode("paperino"), "USER|READ")));
 
+				
 				// rubrica
 				log.info("insert rubrica {} ", rubrica.save(new Rubrica("Grosso", "Giuseppe", "via delle panche 13")));
 				log.info("insert rubrica {} ", rubrica.save(new Rubrica("Grosso", "Daniele", "via delle panche 13")));

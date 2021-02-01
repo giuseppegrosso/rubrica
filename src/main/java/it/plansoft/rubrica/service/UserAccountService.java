@@ -23,6 +23,9 @@ public class UserAccountService extends BaseCrudService<UserAccountRepository, U
 
 	@Override
 	public List<UserAccount> IsUserFromFactory(String azienda) {
+		
+//		((UserAccountRepository) repo).findByAzienda()
+		
 		List<UserAccount> ua = ((UserAccountRepository) repo).findAll();
 		List<UserAccount> uaout = null;
 		// foreach
@@ -52,7 +55,7 @@ public class UserAccountService extends BaseCrudService<UserAccountRepository, U
 //		}
 		// foreach
 		for (UserAccount userAccount : ua) {
-			if (userAccount.getSso_id().equalsIgnoreCase(sso_id)) {
+			if (userAccount.getSso().equalsIgnoreCase(sso_id)) {
 				roles = userAccount.getRuoli();
 				break;
 			}

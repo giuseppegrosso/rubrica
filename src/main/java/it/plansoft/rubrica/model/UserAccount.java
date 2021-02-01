@@ -1,6 +1,13 @@
 package it.plansoft.rubrica.model;
 
+import java.util.Collection;
+
 import javax.persistence.Entity;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import it.plansoft.rubrica.security.ApplicationUserRole;
 
 /**
  * classe di esempio che mappa utente e password con lista ruoli
@@ -9,14 +16,15 @@ import javax.persistence.Entity;
  *
  */
 @Entity
-public class UserAccount extends IDModel<Long> {
+public class UserAccount extends IDModel<Long> implements UserDetails {
 
+	private static final long serialVersionUID = 3617721411274218217L;
 	private String cognome;
-	private String nome;
+	private String name;
 	private String email;
 	private String azienda;
 
-	private String sso_id;
+	private String sso;
 	private String password;
 
 	private String ruoli; // lista dei ruoli separati da | o ,
@@ -24,16 +32,20 @@ public class UserAccount extends IDModel<Long> {
 	public UserAccount() {
 	}
 
-	public UserAccount(String cognome, String nome, String email, String azienda, String sso_id, String password,
+	public UserAccount(String cognome, String name, String email, String azienda, String sso_id, String password,
 			String ruoli) {
 		super();
 		this.cognome = cognome;
-		this.nome = nome;
+		this.name = name;
 		this.email = email;
 		this.azienda = azienda;
-		this.sso_id = sso_id;
+		this.sso = sso_id;
 		this.password = password;
 		this.ruoli = ruoli;
+		// inserisco un utente con le proprietà già valorizzate per poter accede
+		this.enabled = true;
+		this.locked = false;
+		this.expired = false;
 	}
 
 	public String getCognome() {
@@ -44,12 +56,12 @@ public class UserAccount extends IDModel<Long> {
 		this.cognome = cognome;
 	}
 
-	public String getNome() {
-		return nome;
+	public String getName() {
+		return name;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getEmail() {
@@ -68,12 +80,12 @@ public class UserAccount extends IDModel<Long> {
 		this.azienda = azienda;
 	}
 
-	public String getSso_id() {
-		return sso_id;
+	public String getSso() {
+		return sso;
 	}
 
-	public void setSso_id(String sso_id) {
-		this.sso_id = sso_id;
+	public void setSso(String sso_id) {
+		this.sso = sso_id;
 	}
 
 	public String getPassword() {
@@ -94,8 +106,55 @@ public class UserAccount extends IDModel<Long> {
 
 	@Override
 	public String toString() {
-		return "UserAccount [cognome=" + cognome + ", nome=" + nome + ", email=" + email + ", azienda=" + azienda
-				+ ", sso_id=" + sso_id + ", password=" + password + ", ruoli=" + ruoli + "]";
+		return "UserAccount [cognome=" + cognome + ", name=" + name + ", email=" + email + ", azienda=" + azienda
+				+ ", sso_id=" + sso + ", password=" + password + ", ruoli=" + ruoli.split("|") + "]";
+	}
+
+	private Boolean locked = false;
+
+	private Boolean enabled = true;
+
+	private Boolean expired = false;
+
+	public Boolean getExpired() {
+		return expired;
+	}
+
+	public void setExpired(Boolean expired) {
+		this.expired = expired;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+
+		return ApplicationUserRole.USER.getGrantedAutorities();
+//		final SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(userRole.name());
+//		return Collections.singletonList(simpleGrantedAuthority);
+	}
+
+	@Override
+	public String getUsername() {
+		return sso;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return !expired;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return !locked;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return !expired;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return enabled;
 	}
 
 }

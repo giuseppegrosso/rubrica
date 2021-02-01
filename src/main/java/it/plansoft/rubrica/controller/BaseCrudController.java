@@ -1,14 +1,22 @@
 package it.plansoft.rubrica.controller;
 
-import it.plansoft.rubrica.model.IDModel;
-import it.plansoft.rubrica.service.BaseCrudService;
+import java.util.List;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.security.core.Authentication;
 
-import java.util.List;
-import java.util.Optional;
+import it.plansoft.rubrica.model.IDModel;
+import it.plansoft.rubrica.service.BaseCrudService;
 
 public abstract class BaseCrudController<SERVICE extends  BaseCrudService, MODEL extends IDModel<ID>, ID> implements ICrudController<MODEL, ID> {
 
@@ -19,7 +27,21 @@ public abstract class BaseCrudController<SERVICE extends  BaseCrudService, MODEL
     public BaseCrudController(SERVICE service)
     {
         this.service = service;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication != null){
+          //log user name
+          log.info(authentication.getName());
+        }
     }
+    
+//    @RequestMapping(value = "\", method = RequestMethod.GET)
+//    public ModelAndView showForm() {
+//        ModelAndView model = new ModelAndView();
+//        model.setViewName(Environment.);
+//
+//        // The key which will look in your HTML with.
+//        return model;
+//    }
 
     @GetMapping("/")
     public List<MODEL> getAllItems() {

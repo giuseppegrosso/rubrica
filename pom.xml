@@ -41,12 +41,26 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
+	    <!-- xml -->
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-xml -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-xml</artifactId>
+		</dependency>
+
 		<!-- 		restart		 -->
 		<dependency>
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-devtools</artifactId>
 		    <optional>true</optional>
 		</dependency>
+		
+		<!-- 	thymeleaf ed	internazionalizzazione -->
+<!-- 		<dependency> -->
+<!-- 		    <groupId>org.springframework.boot</groupId> -->
+<!-- 		    <artifactId>spring-boot-starter-thymeleaf</artifactId> -->
+<!-- 		</dependency> -->
+
 
 		<!-- spring boot test -->
 		<dependency>
@@ -75,30 +89,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 
-			<!-- <plugin>
-				<groupId>io.swagger</groupId>
-				<artifactId>swagger-codegen-maven-plugin</artifactId>
-				<version>2.3.1</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-						<configuration>
-							<inputSpec>swagger.yaml</inputSpec>
-							<language>java</language>
-							<library>resttemplate</library>
-						</configuration>
-						<configuration>
-							<inputSpec>${project.basedir}/src/main/resources/api.yaml</inputSpec>
-							<language>java</language>
-							<configOptions>
-							<sourceFolder>src/gen/java/main</sourceFolder>
-							</configOptions>
-						</configuration>						
-					</execution>
-				</executions>
-			</plugin>			 -->
+
 		</plugins>
 	</build>
 
