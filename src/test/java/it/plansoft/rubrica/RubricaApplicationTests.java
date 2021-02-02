@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 /**
@@ -26,20 +27,22 @@ class RubricaApplicationTests {
 	}
 	
 	@Test
+	@WithMockUser(username = "giuseppe", password = "giuseppe")
 	public void testGetRubricaById() throws Exception {
 		Long id = 1L;
-		this.mockMvc.perform(get("/rubrica/" + id)).andDo(print()).andExpect(status().isUnauthorized());
+		this.mockMvc.perform(get("/rubrica/" + id)).andDo(print()).andExpect(status().isOk());
 	}
 	
-	// in generale posso mettere tanti metodi con @Test.
 	@Test
+	@WithMockUser(username = "daniele", password = "daniele", roles = {"USER|READ"})
 	public void testRubricaVis() throws Exception {
-		this.mockMvc.perform(get("/rubricavis/")).andDo(print()).andExpect(status().isUnauthorized());
+		this.mockMvc.perform(get("/rubricavis/")).andDo(print()).andExpect(status().isForbidden());
 	}
 	
 	@Test
+	@WithMockUser(username = "giuseppe", password = "giuseppe")
 	public void testUserAccount() throws Exception {
-		this.mockMvc.perform(get("/userAccount/")).andDo(print()).andExpect(status().isUnauthorized());
+		this.mockMvc.perform(get("/userAccount/")).andDo(print()).andExpect(status().isOk());
 	}
 
 }

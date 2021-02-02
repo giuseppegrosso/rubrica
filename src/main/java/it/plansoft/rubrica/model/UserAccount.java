@@ -127,6 +127,10 @@ public class UserAccount extends IDModel<Long> implements UserDetails {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 
+		if (ruoli != null) {
+			return ApplicationUserRole.USER.getGrantedAuthorities(ruoli);
+		}
+
 		return ApplicationUserRole.USER.getGrantedAutorities();
 //		final SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(userRole.name());
 //		return Collections.singletonList(simpleGrantedAuthority);
