@@ -20,6 +20,7 @@ public class RubricaController extends BaseController<RubricaService, Rubrica, L
 
     @Override
     protected String getIndexPage() {
+        log.info("erogazione pagina di rubrica");
         return "rubrica";
     }
 

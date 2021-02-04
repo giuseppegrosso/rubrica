@@ -47,10 +47,10 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
-				.csrf()
-				.disable() //per abilitarlo basta commentare il codce.
-				//altro
-				//.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()) // tipo di implementazione
+		.csrf().disable() // per abilitarlo basta commentare il codce.
+				// altro
+				// .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()) // tipo
+				// di implementazione
 				.authorizeRequests()
 				// white list
 				.antMatchers("/", "/index", "/css", "/js/*").permitAll()
@@ -68,21 +68,23 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 				.hasAnyRole(ApplicationUserRole.ADMIN.name(), ApplicationUserRole.USER.name())
 
 				.anyRequest().authenticated().and()
-		//		.httpBasic()
-		.formLogin().loginPage("/login")
-		.permitAll().defaultSuccessUrl("/rubrica", true)
-		.and().rememberMe()
-		// variante remeber-me
-		.tokenValiditySeconds((int)TimeUnit.DAYS.toSeconds(21))
-		.key("keySecret")
-				// logout
+//				.httpBasic()
+				.formLogin()
+					.loginPage("/login").permitAll()
+					.usernameParameter("user")
+					.passwordParameter("pwd")
+					.defaultSuccessUrl("/rubrica", true)
+					.and().rememberMe()
+//		// variante remeber-me
+						.tokenValiditySeconds((int)TimeUnit.DAYS.toSeconds(21))
+						.key("keySecret")
+//				// logout
 				.and().logout()
-				.logoutUrl("/logout").clearAuthentication(true)
-				.invalidateHttpSession(true)
-				.deleteCookies("JSESSIONID", "remember-me")
-				.logoutSuccessUrl("/login")
-		;
-		
+					.logoutUrl("/logout")
+					.clearAuthentication(true)
+					.invalidateHttpSession(true)
+					.deleteCookies("JSESSIONID", "remember-me")
+					.logoutSuccessUrl("/login");
 
 	}
 
@@ -142,8 +144,9 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(uservice).passwordEncoder(passwordEncoder);
 	}
-	
-	// implementare una classe custom che extends DaoAutenticationProvider e sovrasrive alcuni metodi 
+
+	// implementare una classe custom che extends DaoAutenticationProvider e
+	// sovrasrive alcuni metodi
 	// di validazione.
 
 //	@Override
