@@ -1,6 +1,7 @@
 package it.plansoft.rubrica.configuration;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +21,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.stereotype.Component;
 
 import it.plansoft.rubrica.configuration.login.ActiveUserStore;
@@ -44,7 +46,11 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable() //
+		http
+				.csrf()
+				.disable() //per abilitarlo basta commentare il codce.
+				//altro
+				//.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()) // tipo di implementazione
 				.authorizeRequests()
 				// white list
 				.antMatchers("/", "/index", "/css", "/js/*").permitAll()
@@ -61,7 +67,21 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.GET, "/rubrica/**")
 				.hasAnyRole(ApplicationUserRole.ADMIN.name(), ApplicationUserRole.USER.name())
 
-				.anyRequest().authenticated().and().httpBasic();
+				.anyRequest().authenticated().and()
+		//		.httpBasic()
+		.formLogin().loginPage("/login")
+		.permitAll().defaultSuccessUrl("/rubrica", true)
+		.and().rememberMe()
+		// variante remeber-me
+		.tokenValiditySeconds((int)TimeUnit.DAYS.toSeconds(21))
+		.key("keySecret")
+				// logout
+				.and().logout()
+				.logoutUrl("/logout").clearAuthentication(true)
+				.invalidateHttpSession(true)
+				.deleteCookies("JSESSIONID", "remember-me")
+				.logoutSuccessUrl("/login")
+		;
 		
 
 	}

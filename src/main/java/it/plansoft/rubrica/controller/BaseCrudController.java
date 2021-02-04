@@ -18,30 +18,26 @@ import org.springframework.security.core.Authentication;
 import it.plansoft.rubrica.model.IDModel;
 import it.plansoft.rubrica.service.BaseCrudService;
 
-public abstract class BaseCrudController<SERVICE extends  BaseCrudService, MODEL extends IDModel<ID>, ID> implements ICrudController<MODEL, ID> {
+/**
+ * controller per i metodi crud.
+ * @param <SERVICE>
+ * @param <MODEL>
+ * @param <ID>
+ */
+public class BaseCrudController<SERVICE extends BaseCrudService, MODEL extends IDModel<ID>, ID>
+        extends AbstractController<SERVICE>
+        implements ICrudController<MODEL, ID> {
 
-    protected final static Logger log = LoggerFactory.getLogger(BaseCrudController.class);
 
-    protected SERVICE service;
-
-    public BaseCrudController(SERVICE service)
-    {
+    public BaseCrudController(SERVICE service) {
         this.service = service;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication != null){
-          //log user name
-          log.info(authentication.getName());
+        if (authentication != null) {
+            //log user name
+            log.info(authentication.getName());
         }
     }
-    
-//    @RequestMapping(value = "\", method = RequestMethod.GET)
-//    public ModelAndView showForm() {
-//        ModelAndView model = new ModelAndView();
-//        model.setViewName(Environment.);
-//
-//        // The key which will look in your HTML with.
-//        return model;
-//    }
+
 
     @GetMapping("/")
     public List<MODEL> getAllItems() {
@@ -49,9 +45,10 @@ public abstract class BaseCrudController<SERVICE extends  BaseCrudService, MODEL
         return service.getAll();
     }
 
+
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIM', 'ROLE_USER')")
-    public Optional<MODEL> getById(@PathVariable Long id) {
+    public Optional<MODEL> getById(@PathVariable ID id) {
         return service.getById(id);
     }
 

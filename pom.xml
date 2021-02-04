@@ -57,10 +57,10 @@
 		</dependency>
 
 		<!-- thymeleaf ed internazionalizzazione -->
-		<!-- <dependency> -->
-		<!-- <groupId>org.springframework.boot</groupId> -->
-		<!-- <artifactId>spring-boot-starter-thymeleaf</artifactId> -->
-		<!-- </dependency> -->
+		 <dependency>
+		 <groupId>org.springframework.boot</groupId>
+		 <artifactId>spring-boot-starter-thymeleaf</artifactId>
+		 </dependency>
 
 
 		<!-- spring boot test -->
