@@ -1,35 +1,36 @@
 package it.plansoft.rubrica;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.List;
-import java.util.Optional;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 
 import it.plansoft.rubrica.controller.RubricaController;
 import it.plansoft.rubrica.model.Rubrica;
 
-
+/*
+ * test sugli endpoint della rubrica
+ */
 @SpringBootTest
-public class RubricaControllerTest  {
-	@Autowired
-	RubricaController controller;
-
-    @Test
-    public void getRubricaList() throws Exception {
-       List<Rubrica> rlist = controller.getAllItems();
-
-       assertTrue(rlist.size() > 0);
+public class RubricaControllerTest extends BaseCrudControllerTest<RubricaController, Rubrica, Long> {
+	
+	
+    @Autowired
+    public RubricaControllerTest(RubricaController controller) {
+        super(controller);
     }
 
-    @Test
-    public void getById() throws Exception {
-       Optional<Rubrica> r = controller.getById(1L);
+	@Test
+	@WithMockUser(username = "giuseppe", password = "giuseppe")
+	public void getRubricaList() throws Exception {
+		super.getAllItems();
+		
+		// test specifici su oggetto.
+	}
 
-       assertNotNull(r);
-    }
+	@Test
+	@WithMockUser(username = "giuseppe", password = "giuseppe")
+	public void getById() throws Exception {
+		super.getById(1L);
+	}
 }

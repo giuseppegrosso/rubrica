@@ -21,7 +21,10 @@ class RubricaApplicationTests {
 	@Autowired
 	private MockMvc mockMvc;
 
+
+
 	@Test
+	@WithMockUser(username = "giuseppe", password = "pippo", roles = {"USER|READ"})
 	public void testRubrica() throws Exception {
 		this.mockMvc.perform(get("/rubrica/")).andDo(print()).andExpect(status().isUnauthorized());
 	}
@@ -36,7 +39,13 @@ class RubricaApplicationTests {
 	@Test
 	@WithMockUser(username = "daniele", password = "daniele", roles = {"USER|READ"})
 	public void testRubricaVis() throws Exception {
-		this.mockMvc.perform(get("/rubricavis/")).andDo(print()).andExpect(status().isForbidden());
+		this.mockMvc.perform(get("/rubricavis/")).andDo(print()).andExpect(status().isUnauthorized());
+	}
+	
+	@Test
+	@WithMockUser(username = "daniele", password = "daniele", roles = {"VISUALIZZATORE|READ"})
+	public void testRubricaVis2() throws Exception {
+		this.mockMvc.perform(get("/rubricavis/")).andDo(print()).andExpect(status().isOk());
 	}
 	
 	@Test
