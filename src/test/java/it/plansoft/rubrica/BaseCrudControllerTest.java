@@ -1,25 +1,38 @@
 package it.plansoft.rubrica;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import it.plansoft.rubrica.controller.ICrudController;
+import it.plansoft.rubrica.model.IDModel;
+import it.plansoft.rubrica.service.BaseCrudService;
+import org.junit.jupiter.api.Test;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;
 
-import it.plansoft.rubrica.controller.ICrudController;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class BaseCrudControllerTest<CONTROLLER extends ICrudController<MODEL, ID>, MODEL, ID>
+public abstract class BaseCrudControllerTest<CONTROLLER extends ICrudController<MODEL, ID>, MODEL extends IDModel<ID>, ID>
 		implements ICrudController<MODEL, ID> {
 
 	public BaseCrudControllerTest() {
 
 	}
 
-	public BaseCrudControllerTest(CONTROLLER controller) {
+	CONTROLLER controller;
+	BaseCrudService service;
+	JpaRepository repo;
+
+	public BaseCrudControllerTest(CONTROLLER controller,
+								  BaseCrudService service,
+								  JpaRepository repo) {
 		this.controller = controller;
+		this.service = service;
+		this.repo = repo;
 	}
 
-	CONTROLLER controller;
+
+	// abstract method
+	protected abstract MODEL getInsertElement();
 
 	@Override
 	public List<MODEL> getAllItems() {
@@ -65,4 +78,69 @@ public class BaseCrudControllerTest<CONTROLLER extends ICrudController<MODEL, ID
 
 	}
 
+
+	/********************************************************************************
+	 * TEST SERVICE
+	 *********************************************************************************/
+
+	@Test
+	protected void getServiceById() throws Exception {
+		List<MODEL> rlist = service.getAll();
+		assertTrue(rlist.size() > 0);
+
+		MODEL r = rlist.get(0);
+
+		// get Data ById
+		Optional<MODEL> e = service.getById(r.getId());
+
+		assertNotNull(e);
+		assertNotNull(e.get());
+
+		// check di lettura id
+		assertEquals(e.get().getId(), r.getId());
+	}
+
+	@Test
+	protected void getServiceAll() throws Exception {
+
+		List<MODEL> rlist = service.getAll();
+
+		assertTrue(rlist.size() > 0);
+	}
+
+	@Test
+	protected void insert() throws Exception {
+
+		MODEL m = getInsertElement();
+
+		MODEL mi = (MODEL)service.save(m);
+		Optional<MODEL> e = service.getById(mi.getId());
+
+
+		assertNotNull(e);
+		assertNotNull(e.get());
+
+		// check di lettura id
+		assertEquals(e.get().getId(), mi.getId());
+	}
+
+	/********************************************************************************
+	 * TEST REPOSITORY
+	 *********************************************************************************/
+	@Test
+	protected void getRepoById() throws Exception {
+		List<MODEL> rlist = repo.findAll();
+		assertTrue(rlist.size() > 0);
+
+		MODEL r = rlist.get(0);
+
+		// get Data ById
+		Optional<MODEL> e = repo.findById(r.getId());
+
+		assertNotNull(e);
+		assertNotNull(e.get());
+
+		// check di lettura id
+		assertEquals(e.get().getId(), r.getId());
+	}
 }

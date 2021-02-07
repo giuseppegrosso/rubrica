@@ -19,6 +19,14 @@ public class Rubrica extends BaseModel<Long> {
         super();
     }
 
+    public static Rubrica build()
+    {
+        Rubrica r = new Rubrica();
+        r.setTsInsert(new Date());
+        r.setUserInsert("root");
+        return r;
+    }
+
 
     public Rubrica(String cognome, String nome, String indirizzo) {
         this();
@@ -33,24 +41,27 @@ public class Rubrica extends BaseModel<Long> {
         return cognome;
     }
 
-    public void setCognome(String cognome) {
+    public Rubrica setCognome(String cognome) {
         this.cognome = cognome;
+        return this;
     }
 
     public String getNome() {
         return nome;
     }
 
-    public void setNome(String nome) {
+    public Rubrica setNome(String nome) {
         this.nome = nome;
+        return this;
     }
 
     public String getIndirizzo() {
         return indirizzo;
     }
 
-    public void setIndirizzo(String indirizzo) {
+    public Rubrica setIndirizzo(String indirizzo) {
         this.indirizzo = indirizzo;
+        return this;
     }
 
     @Override
