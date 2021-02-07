@@ -3,7 +3,7 @@ package it.plansoft.rubrica;
 import it.plansoft.rubrica.controller.ICrudController;
 import it.plansoft.rubrica.model.IDModel;
 import it.plansoft.rubrica.service.BaseCrudService;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

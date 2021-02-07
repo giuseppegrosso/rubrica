@@ -1,13 +1,11 @@
 package it.plansoft.rubrica.model;
 
-import java.util.Collection;
-
-import javax.persistence.Entity;
-
+import it.plansoft.rubrica.security.ApplicationUserRole;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import it.plansoft.rubrica.security.ApplicationUserRole;
+import javax.persistence.Entity;
+import java.util.Collection;
 
 /**
  * classe di esempio che mappa utente e password con lista ruoli
@@ -132,8 +130,7 @@ public class UserAccount extends IDModel<Long> implements UserDetails {
 		}
 
 		return ApplicationUserRole.USER.getGrantedAutorities();
-//		final SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(userRole.name());
-//		return Collections.singletonList(simpleGrantedAuthority);
+
 	}
 
 	@Override
