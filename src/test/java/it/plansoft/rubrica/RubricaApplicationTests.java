@@ -1,15 +1,15 @@
 package it.plansoft.rubrica;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * classe di test sull'ambiente.
@@ -43,7 +43,7 @@ class RubricaApplicationTests {
 	}
 	
 	@Test
-	@WithMockUser(username = "daniele", password = "daniele", roles = {"VISUALIZZATORE|READ"})
+	@WithMockUser(username = "daniele", password = "daniele", roles = {"USER|READ"})
 	public void testRubricaVis2() throws Exception {
 		this.mockMvc.perform(get("/rubricavis/")).andDo(print()).andExpect(status().isOk());
 	}
