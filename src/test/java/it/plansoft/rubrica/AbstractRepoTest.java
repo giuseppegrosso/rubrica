@@ -25,13 +25,13 @@ abstract class AbstractRepoTest {
     protected abstract void loadDataBase();
 
     @Before
-    public void init() {
+    public void startup() {
         log.info("startup");
         loadDataBase();
     }
 
     @After
-    public void teardown() {
+    public void shutdown() {
         log.info("teardown");
     }
 
